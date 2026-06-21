@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
+<title>TravelGo BD — Flights, Hotels, Visa & Holidays</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#1882ff;
+  --orange:#E8873A;
+  --orange-dark:#d4762e;
+  --text:#1a1a2e;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --bg:#f3f4f6;
+  --white:#fff;
+  --green:#16a34a;
+  --star:#E8873A;
+}
+body{font-family:'Inter',sans-serif;background:var(--white);color:var(--text);font-size:14px}
+button{cursor:pointer;font-family:'Inter',sans-serif}
+a{text-decoration:none;color:inherit;cursor:pointer}
+img{display:block;width:100%;height:100%;object-fit:cover}
+
+/* ── NAVBAR ── */
+nav{
+  background:var(--white);
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:999;
+}
+.nav-inner{
+  max-width:480px;margin:0 auto;
+  padding:12px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.hamburger{font-size:20px;color:var(--text);background:none;border:none;padding:4px}
+.logo-wrap{display:flex;align-items:center;gap:6px}
+.logo-icon{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--blue);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:14px;font-weight:800;
+}
+.logo-text{font-size:18px;font-weight:800;color:var(--blue);font-style:italic}
+.nav-actions{display:flex;gap:8px}
+.btn-nav-login{border:1.5px solid var(--blue);color:var(--blue);background:none;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600}
+.btn-nav-signup{background:var(--blue);color:#fff;border:none;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600}
+
+/* ── HERO / SEARCH AREA ── */
+.hero-bg{
+  background:linear-gradient(180deg,#c8dff5 0%,#e8f3fb 40%,#f3f4f6 100%);
+  padding:24px 20px 0;
+  text-align:center;
+}
+.hero-bg h1{font-size:20px;font-weight:800;color:var(--text);margin-bottom:4px}
+.hero-bg p{font-size:13px;color:var(--muted);margin-bottom:20px}
+
+/* ── SERVICE TABS ── */
+.svc-tabs{
+  background:var(--white);
+  border-radius:12px 12px 0 0;
+  display:flex;overflow-x:auto;
+  border-bottom:1px solid var(--border);
+  scrollbar-width:none;
+  max-width:480px;margin:0 auto;
+}
+.svc-tabs::-webkit-scrollbar{display:none}
+.svc-tab{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:12px 16px;min-width:70px;
+  font-size:11px;font-weight:600;color:var(--muted);
+  border:none;background:none;border-bottom:2px solid transparent;
+  white-space:nowrap;transition:all 0.15s;
+}
+.svc-tab .t-icon{font-size:20px}
+.svc-tab.active{color:var(--blue);border-bottom-color:var(--orange)}
+.svc-tab:hover{color:var(--blue)}
+
+/* ── SEARCH BOX ── */
+.search-box{
+  background:var(--white);
+  max-width:480px;margin:0 auto;
+  padding:16px 16px 20px;
+}
+.trip-toggle{display:flex;gap:20px;margin-bottom:14px}
+.trip-toggle label{
+  display:flex;align-items:center;gap:6px;
+  font-size:13px;color:var(--text);cursor:pointer;font-weight:500;
+}
+.trip-toggle input[type=radio]{accent-color:var(--blue);width:16px;height:16px}
+.trip-toggle label.bold-active{font-weight:700}
+
+.field-card{
+  background:#f9fafb;border:1px solid var(--border);
+  border-radius:10px;padding:14px 16px;
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:10px;position:relative;
+}
+.field-card .fc-code{
+  font-size:16px;font-weight:800;color:var(--text);
+  min-width:38px;
+}
+.field-card .fc-info{flex:1}
+.field-card .fc-label{font-size:15px;font-weight:700;color:var(--text)}
+.field-card .fc-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.field-card input,.field-card select{
+  border:none;outline:none;background:transparent;
+  font-family:'Inter',sans-serif;width:100%;
+  font-size:15px;font-weight:700;color:var(--text);
+}
+.field-card select{cursor:pointer}
+.field-card input::placeholder{color:#9ca3af;font-weight:400;font-size:14px}
+
+.swap-circle{
+  position:absolute;right:16px;
+  width:32px;height:32px;border-radius:50%;
+  background:var(--white);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;color:var(--muted);box-shadow:0 1px 4px rgba(0,0,0,0.08);
+  cursor:pointer;
+}
+
+.dates-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+
+.btn-search-orange{
+  width:100%;padding:15px;
+  background:var(--orange);color:#fff;border:none;
+  border-radius:10px;font-size:16px;font-weight:700;
+  transition:background 0.15s;margin-bottom:14px;
+}
+.btn-search-orange:hover{background:var(--orange-dark)}
+
+.fare-type{display:flex;gap:20px}
+.fare-type label{
+  display:flex;align-items:center;gap:6px;
+  font-size:13px;color:var(--text);cursor:pointer;font-weight:500;
+}
+.fare-type input[type=radio]{accent-color:var(--blue);width:15px;height:15px}
+
+.search-panel{display:none}
+.search-panel.active{display:block}
+
+/* ── SECTION ── */
+.section{padding:28px 20px;max-width:480px;margin:0 auto}
+.section.bg-gray{background:var(--bg);max-width:100%}
+.section.bg-gray .section-inner{max-width:480px;margin:0 auto;padding:0}
+.sec-title{font-size:20px;font-weight:800;color:var(--text);text-align:center;margin-bottom:6px}
+.sec-sub{font-size:13px;color:var(--muted);text-align:center;line-height:1.6;margin-bottom:20px}
+
+/* ── EXCLUSIVE OFFERS CAROUSEL ── */
+.carousel{overflow-x:auto;display:flex;gap:12px;padding-bottom:8px;scrollbar-width:none;margin:0 -4px;padding:4px}
+.carousel::-webkit-scrollbar{display:none}
+.offer-slide{
+  min-width:240px;border-radius:12px;overflow:hidden;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);flex-shrink:0;
+  height:120px;background:var(--bg);
+}
+.offer-slide img{width:100%;height:100%;object-fit:cover}
+
+/* ── SUPERBRAND BANNER ── */
+.superbrand{
+  background:linear-gradient(120deg,#0d2159,#1882ff);
+  border-radius:12px;padding:20px;
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:16px;
+}
+.superbrand-text{color:#fff}
+.superbrand-text .st-logo-sm{font-size:13px;font-weight:700;color:rgba(255,255,255,0.8);margin-bottom:4px}
+.superbrand-text h3{font-size:18px;font-weight:900;line-height:1.2}
+.superbrand-badge{
+  background:#f5c842;border-radius:50%;
+  width:64px;height:64px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:800;text-align:center;color:#7c5200;
+  line-height:1.2;padding:8px;flex-shrink:0;
+}
+
+.dots{display:flex;justify-content:center;gap:6px;margin-top:14px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--border)}
+.dot.active{background:var(--blue);width:22px;border-radius:4px}
+
+/* ── EXPLORE BD - 2 COL CARDS ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.dest-card{border-radius:12px;overflow:hidden;height:160px;position:relative;cursor:pointer}
+.dest-card img{width:100%;height:100%;object-fit:cover}
+.dest-card .dc-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,0.55) 0%,transparent 55%);
+  display:flex;flex-direction:column;justify-content:flex-end;padding:12px;
+}
+.dest-card .dc-name{font-size:14px;font-weight:700;color:#fff}
+.dest-card .dc-count{font-size:11px;color:rgba(255,255,255,0.85);margin-top:2px}
+
+/* ── AIRLINES LIST ── */
+.airline-list{display:flex;flex-direction:column;gap:0}
+.airline-row{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 0;border-bottom:1px solid var(--border);cursor:pointer;
+}
+.airline-row:last-child{border-bottom:none}
+.airline-logo{
+  width:44px;height:44px;border-radius:8px;
+  background:#fff;border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;overflow:hidden;padding:4px;
+}
+.airline-logo img{width:100%;height:100%;object-fit:contain}
+.airline-name{flex:1;font-size:14px;font-weight:600;color:var(--text)}
+.airline-arrow{color:var(--muted);font-size:16px}
+.btn-load-more{
+  width:100%;padding:13px;margin-top:16px;
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:10px;color:var(--blue);font-size:14px;font-weight:600;
+}
+
+/* ── DESTINATIONS CAROUSEL ── */
+.dest-carousel{overflow-x:auto;display:flex;gap:10px;scrollbar-width:none;padding:4px 0}
+.dest-carousel::-webkit-scrollbar{display:none}
+.dest-slide{
+  min-width:200px;border-radius:14px;overflow:hidden;
+  height:200px;position:relative;flex-shrink:0;cursor:pointer;
+}
+.dest-slide img{width:100%;height:100%;object-fit:cover}
+.dest-slide .ds-overlay{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(to top,rgba(0,0,0,0.6),transparent);
+  padding:14px 12px;
+}
+.dest-slide .ds-name{font-size:15px;font-weight:700;color:#fff}
+
+/* ── HOTEL CARDS ── */
+.hotel-carousel{overflow-x:auto;display:flex;gap:12px;scrollbar-width:none;padding:4px 0}
+.hotel-carousel::-webkit-scrollbar{display:none}
+.hotel-slide{min-width:200px;flex-shrink:0;cursor:pointer}
+.hotel-slide .hi{height:150px;border-radius:12px;overflow:hidden;background:var(--bg)}
+.hotel-slide .hn{font-size:14px;font-weight:700;color:var(--text);margin-top:8px}
+.hotel-slide .hr{display:flex;align-items:center;gap:4px;margin-top:3px}
+.hotel-slide .hr .star{color:var(--star);font-size:12px}
+.hotel-slide .hr .score{font-size:12px;font-weight:700;color:var(--text)}
+.hotel-slide .hr .reviews{font-size:11px;color:var(--muted)}
+
+/* ── TOUR PACKAGES ── */
+.pkg-carousel{overflow-x:auto;display:flex;gap:12px;scrollbar-width:none;padding:4px 0}
+.pkg-carousel::-webkit-scrollbar{display:none}
+.pkg-slide{min-width:200px;flex-shrink:0;cursor:pointer}
+.pkg-slide .pi{height:150px;border-radius:12px;overflow:hidden;background:var(--bg)}
+.pkg-slide .pn{font-size:14px;font-weight:700;color:var(--text);margin-top:8px}
+.pkg-slide .pr{display:flex;align-items:center;gap:4px;margin-top:3px}
+.pkg-slide .pr .star{color:var(--star);font-size:12px}
+.pkg-slide .pr .score{font-size:12px;font-weight:700;color:var(--text)}
+.pkg-slide .pr .reviews{font-size:11px;color:var(--muted)}
+
+/* ── ROUTES ── */
+.route-toggle{display:flex;gap:0;margin-bottom:16px;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+.rt-btn{
+  flex:1;padding:11px;font-size:14px;font-weight:600;
+  background:var(--bg);color:var(--muted);border:none;transition:all 0.15s;
+}
+.rt-btn.active{background:var(--blue);color:#fff}
+
+.route-row{
+  display:flex;align-items:center;
+  padding:14px 0;border-bottom:1px solid var(--border);cursor:pointer;
+}
+.route-row:last-child{border-bottom:none}
+.route-from{flex:1}
+.route-from .rf-city{font-size:14px;font-weight:700;color:var(--text)}
+.route-from .rf-airport{font-size:11px;color:var(--muted);margin-top:2px}
+.route-icon{padding:0 12px;color:var(--blue);font-size:16px}
+.route-to{flex:1;text-align:right}
+.route-to .rt-city{font-size:14px;font-weight:700;color:var(--text)}
+.route-to .rt-airport{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* ── PARTNER BANNER ── */
+.partner-banner{
+  background:linear-gradient(135deg,#c8dff5,#f5d5b8);
+  padding:40px 20px;text-align:center;
+}
+.partner-banner h2{font-size:22px;font-weight:800;color:var(--text);margin-bottom:8px}
+.partner-banner p{font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.6}
+.btn-partner{
+  background:var(--orange);color:#fff;border:none;
+  padding:14px 32px;border-radius:50px;font-size:15px;font-weight:700;
+}
+
+/* ── APP SECTION ── */
+.app-section{text-align:center;padding:32px 20px}
+.app-section h2{font-size:20px;font-weight:800;color:var(--text);margin-bottom:8px}
+.app-section p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px}
+.app-btns{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.app-store-btn{
+  background:#000;color:#fff;border:none;
+  padding:11px 20px;border-radius:10px;
+  display:flex;align-items:center;gap:8px;
+  font-size:13px;cursor:pointer;
+}
+.app-store-btn .abl{font-size:9px;opacity:0.7;display:block;text-align:left}
+.app-store-btn .abn{font-size:14px;font-weight:700;display:block;text-align:left}
+.qr-box{
+  width:70px;height:70px;border:2px solid var(--border);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;font-size:36px;
+  margin:0 auto;
+}
+.app-screens{margin-top:20px;font-size:60px;text-align:center;filter:drop-shadow(0 8px 16px rgba(0,0,0,0.15))}
+
+/* ── FOOTER ── */
+footer{background:var(--white);border-top:1px solid var(--border);padding:28px 20px}
+.footer-inner{max-width:480px;margin:0 auto}
+.footer-logo-row{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.footer-license{font-size:12px;color:var(--muted);line-height:1.9;margin-bottom:20px}
+.footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+.footer-col h4{font-size:15px;font-weight:700;color:var(--text);margin-bottom:12px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.footer-col ul li a{font-size:13px;color:var(--muted)}
+.footer-col ul li a:hover{color:var(--blue)}
+.footer-bottom{border-top:1px solid var(--border);padding-top:16px;text-align:center}
+.footer-bottom p{font-size:11px;color:var(--muted)}
+.payment-badges{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-top:10px}
+.pay-b{border:1px solid var(--border);border-radius:5px;padding:4px 10px;font-size:10px;font-weight:600;color:var(--muted)}
+
+/* ── MODALS ── */
+.overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.4);
+  backdrop-filter:blur(2px);z-index:9000;
+  display:none;align-items:flex-end;justify-content:center;
+}
+.overlay.open{display:flex}
+.modal{
+  background:#fff;border-radius:20px 20px 0 0;
+  width:100%;max-width:480px;max-height:90vh;
+  overflow-y:auto;padding:0 0 32px;
+}
+.modal-handle{width:40px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 16px}
+.modal-hd{padding:0 20px 16px;border-bottom:1px solid var(--border)}
+.modal-hd h2{font-size:17px;font-weight:800;color:var(--text)}
+.modal-hd p{font-size:12px;color:var(--muted);margin-top:3px}
+.modal-bd{padding:20px}
+
+.summary-box{background:#f9fafb;border-radius:12px;padding:16px;margin-bottom:18px}
+.summary-box .stitle{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+.srow{display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid var(--border)}
+.srow:last-child{border-bottom:none}
+.srow .sk{color:var(--muted)}
+.srow .sv{font-weight:600;color:var(--text)}
+.stotal{display:flex;justify-content:space-between;padding-top:12px;margin-top:4px}
+.stotal .sk{font-size:14px;font-weight:700;color:var(--text)}
+.stotal .sv{font-size:18px;font-weight:800;color:var(--blue)}
+
+.fg{margin-bottom:14px}
+.fg label{display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.4px}
+.fg input,.fg select{
+  width:100%;border:1.5px solid var(--border);border-radius:10px;
+  padding:12px 14px;font-size:14px;font-family:'Inter',sans-serif;
+  color:var(--text);outline:none;transition:border-color 0.15s;
+  background:#fff;
+}
+.fg input:focus,.fg select:focus{border-color:var(--blue)}
+.fgrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+.pay-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+.pm-grid{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.pm{
+  flex:1;min-width:65px;padding:10px 8px;
+  border:1.5px solid var(--border);border-radius:8px;
+  background:#fff;font-size:11px;font-weight:700;color:var(--muted);
+  text-align:center;transition:all 0.15s;cursor:pointer;
+}
+.pm.active{border-color:var(--blue);color:var(--blue);background:#eff6ff}
+.pm:hover{border-color:var(--blue)}
+.ssl-note{
+  background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;
+  padding:10px 14px;font-size:11px;color:var(--green);font-weight:600;
+  margin-bottom:16px;display:flex;align-items:center;gap:6px;
+}
+.btn-pay{
+  width:100%;background:var(--orange);color:#fff;border:none;
+  padding:15px;border-radius:12px;font-size:16px;font-weight:800;
+}
+.btn-pay:hover{background:var(--orange-dark)}
+.demo-note{text-align:center;font-size:10px;color:var(--muted);margin-top:8px}
+.modal-x-top{
+  position:absolute;right:16px;top:16px;
+  background:var(--bg);border:none;width:30px;height:30px;
+  border-radius:50%;font-size:14px;cursor:pointer;color:var(--muted);
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* AUTH */
+.auth-tabs{display:flex;border-bottom:2px solid var(--border);margin-bottom:20px}
+.at{
+  flex:1;padding:12px;text-align:center;
+  font-size:14px;font-weight:600;color:var(--muted);
+  cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;
+}
+.at.active{color:var(--blue);border-bottom-color:var(--orange)}
+
+@media(min-width:480px){
+  .hero-bg,.svc-tabs,.search-box,.section,.footer-inner{max-width:480px;margin-left:auto;margin-right:auto}
+  .section.bg-gray .section-inner{padding:0}
+}
+html{scroll-behavior:smooth}
+
+/* ── DETAIL MODAL ── */
+.detail-overlay{
+  position:fixed;inset:0;background:#fff;z-index:8000;
+  display:none;flex-direction:column;
+  overflow-y:auto;
+}
+.detail-overlay.open{display:flex}
+.detail-inner{max-width:480px;margin:0 auto;width:100%;flex:1;padding-bottom:100px}
+
+.detail-topbar{
+  position:sticky;top:0;z-index:10;
+  background:#fff;padding:12px 16px;
+  display:flex;align-items:center;gap:12px;
+  border-bottom:1px solid var(--border);
+}
+.detail-back{
+  background:var(--bg);border:none;
+  width:34px;height:34px;border-radius:50%;
+  font-size:18px;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;color:var(--text);
+}
+.detail-topbar-title{font-size:15px;font-weight:700;color:var(--text);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* IMAGE GALLERY */
+.gallery{position:relative;height:240px;overflow:hidden;background:var(--bg)}
+.gallery-main{width:100%;height:100%;object-fit:cover}
+.gallery-thumbs{
+  display:flex;gap:6px;padding:8px 16px;
+  overflow-x:auto;scrollbar-width:none;background:var(--bg);
+}
+.gallery-thumbs::-webkit-scrollbar{display:none}
+.gallery-thumb{
+  width:60px;height:50px;border-radius:6px;overflow:hidden;
+  flex-shrink:0;cursor:pointer;border:2px solid transparent;transition:border-color 0.15s;
+}
+.gallery-thumb.active{border-color:var(--blue)}
+.gallery-thumb img{width:100%;height:100%;object-fit:cover}
+.gallery-count{
+  position:absolute;bottom:10px;right:10px;
+  background:rgba(0,0,0,0.55);color:#fff;
+  font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;
+}
+
+/* DETAIL BODY */
+.detail-body{padding:16px}
+.detail-name{font-size:20px;font-weight:800;color:var(--text);margin-bottom:4px}
+.detail-loc{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:4px;margin-bottom:8px}
+.detail-rating{display:flex;align-items:center;gap:6px;margin-bottom:14px}
+.rating-badge{background:var(--blue);color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:6px}
+.rating-stars{color:var(--star);font-size:14px}
+.rating-count{font-size:12px;color:var(--muted)}
+
+.detail-price-bar{
+  background:var(--bg);border-radius:12px;padding:14px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:16px;
+}
+.dpb-from{font-size:11px;color:var(--muted)}
+.dpb-amt{font-size:22px;font-weight:800;color:var(--text)}
+.dpb-per{font-size:11px;color:var(--muted)}
+.dpb-tag{background:#fff0e8;color:var(--orange);font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px}
+
+/* TABS */
+.detail-tabs{display:flex;border-bottom:2px solid var(--border);margin-bottom:16px}
+.dtab{
+  flex:1;padding:10px 6px;text-align:center;font-size:12px;font-weight:600;
+  color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;
+}
+.dtab.active{color:var(--blue);border-bottom-color:var(--orange)}
+.dtab-panel{display:none}
+.dtab-panel.active{display:block}
+
+/* OVERVIEW */
+.detail-desc{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:16px}
+.amenities-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.amenity{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text);font-weight:500}
+.amenity .ai{font-size:16px}
+
+/* INCLUDES */
+.include-list{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.include-item{display:flex;align-items:flex-start;gap:10px;padding:10px;background:var(--bg);border-radius:10px}
+.include-item .ii-icon{font-size:18px;flex-shrink:0}
+.include-item .ii-text{font-size:12px;color:var(--text);line-height:1.5}
+.include-item .ii-label{font-weight:700;display:block;margin-bottom:2px}
+
+/* REVIEWS */
+.review-list{display:flex;flex-direction:column;gap:12px}
+.review-card{background:var(--bg);border-radius:10px;padding:12px}
+.rc-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.rc-av{width:34px;height:34px;border-radius:50%;background:var(--blue);color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.rc-name{font-size:13px;font-weight:700;color:var(--text)}
+.rc-date{font-size:11px;color:var(--muted)}
+.rc-stars{color:var(--star);font-size:12px;margin-bottom:4px}
+.rc-text{font-size:12px;color:var(--muted);line-height:1.6}
+
+/* STICKY BOOK BAR */
+.detail-book-bar{
+  position:fixed;bottom:0;left:0;right:0;
+  background:#fff;border-top:1px solid var(--border);
+  padding:12px 20px;z-index:9001;
+  display:none;
+}
+.detail-book-bar.open{display:block}
+.detail-book-bar-inner{max-width:480px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.dbb-price{font-size:18px;font-weight:800;color:var(--text)}
+.dbb-price span{font-size:11px;font-weight:400;color:var(--muted);display:block}
+.btn-book-now{flex:1;background:var(--orange);color:#fff;border:none;padding:14px;border-radius:12px;font-size:15px;font-weight:800}
+.btn-book-now:hover{background:var(--orange-dark)}
+
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-inner">
+    <button class="hamburger" onclick="alert('Menu coming soon!')">☰</button>
+    <div class="logo-wrap">
+      <div class="logo-icon">TG</div>
+      <span class="logo-text">TravelGo BD</span>
+    </div>
+    <div class="nav-actions">
+      <button class="btn-nav-login" onclick="openAuth('login')">Login</button>
+      <button class="btn-nav-signup" onclick="openAuth('signup')">Sign Up</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO + SEARCH -->
+<div class="hero-bg">
+  <h1>Welcome to TravelGo BD!</h1>
+  <p>Find Flights, Hotels, Visa &amp; Holidays</p>
+
+  <!-- SERVICE TABS -->
+  <div class="svc-tabs" id="svcTabs">
+    <button class="svc-tab active" onclick="switchSvc('flight',this)">
+      <span class="t-icon">✈️</span>Flight
+    </button>
+    <button class="svc-tab" onclick="switchSvc('hotel',this)">
+      <span class="t-icon">🏨</span>Hotel
+    </button>
+    <button class="svc-tab" onclick="switchSvc('holiday',this)">
+      <span class="t-icon">🌴</span>Holiday
+    </button>
+    <button class="svc-tab" onclick="switchSvc('visa',this)">
+      <span class="t-icon">📋</span>Visa
+    </button>
+    <button class="svc-tab" onclick="switchSvc('umrah',this)">
+      <span class="t-icon">🕋</span>Umrah
+    </button>
+  </div>
+
+  <!-- SEARCH BOX -->
+  <div class="search-box">
+
+    <!-- FLIGHT PANEL -->
+    <div class="search-panel active" id="panel-flight">
+      <div class="trip-toggle">
+        <label><input type="radio" name="trip" value="one"/> One Way</label>
+        <label><input type="radio" name="trip" value="rt" checked/> <strong>Round Trip</strong></label>
+        <label><input type="radio" name="trip" value="mc"/> Multi City</label>
+      </div>
+
+      <div class="field-card">
+        <div class="fc-code">DAC</div>
+        <div class="fc-info">
+          <div class="fc-label">Dhaka</div>
+          <div class="fc-sub">Bangladesh, Hazrat Shahjalal International Airport</div>
+        </div>
+        <div class="swap-circle">⇅</div>
+      </div>
+
+      <div class="field-card">
+        <div class="fc-code" style="color:#9ca3af;font-size:13px;font-weight:500">TO</div>
+        <div class="fc-info">
+          <input type="text" placeholder="Flying to — City or Airport"/>
+          <div class="fc-sub">Destination</div>
+        </div>
+      </div>
+
+      <div class="dates-row">
+        <div class="field-card" style="margin-bottom:0">
+          <div class="fc-info">
+            <div class="fc-code" style="font-size:22px;font-weight:800">22</div>
+            <div class="fc-label" style="font-size:14px">June</div>
+            <div class="fc-sub">Mon, 2026</div>
+          </div>
+        </div>
+        <div class="field-card" style="margin-bottom:0">
+          <div class="fc-info">
+            <div class="fc-code" style="font-size:22px;font-weight:800">24</div>
+            <div class="fc-label" style="font-size:14px">June</div>
+            <div class="fc-sub">Wed, 2026</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-card" style="margin-top:10px">
+        <div class="fc-code" style="font-size:20px;font-weight:800">01</div>
+        <div class="fc-info">
+          <div class="fc-label">Traveller</div>
+          <div class="fc-sub">1 Adult</div>
+        </div>
+        <div style="font-size:13px;color:var(--muted);margin-left:auto">Economy</div>
+      </div>
+
+      <button class="btn-search-orange" onclick="openCheckout('flight')">Search Flight</button>
+
+      <div class="fare-type">
+        <label><input type="radio" name="fare" value="reg" checked/> Regular Fare</label>
+        <label><input type="radio" name="fare" value="stu"/> Student Fare</label>
+        <label><input type="radio" name="fare" value="umr"/> Umrah Fare</label>
+      </div>
+    </div>
+
+    <!-- HOTEL PANEL -->
+    <div class="search-panel" id="panel-hotel">
+      <div class="field-card">
+        <div class="fc-code">🏨</div>
+        <div class="fc-info">
+          <input type="text" placeholder="Destination City or Property"/>
+          <div class="fc-sub">Where are you going?</div>
+        </div>
+      </div>
+      <div class="dates-row">
+        <div class="field-card" style="margin-bottom:0;flex-direction:column;align-items:flex-start">
+          <div style="font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">CHECK-IN</div>
+          <input type="date" style="border:none;outline:none;font-size:14px;font-weight:600;color:var(--text);background:transparent;font-family:Inter,sans-serif;width:100%"/>
+        </div>
+        <div class="field-card" style="margin-bottom:0;flex-direction:column;align-items:flex-start">
+          <div style="font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">CHECK-OUT</div>
+          <input type="date" style="border:none;outline:none;font-size:14px;font-weight:600;color:var(--text);background:transparent;font-family:Inter,sans-serif;width:100%"/>
+        </div>
+      </div>
+      <div class="field-card" style="margin-top:10px">
+        <div class="fc-code">👥</div>
+        <div class="fc-info">
+          <select style="border:none;outline:none;font-size:14px;font-weight:600;color:var(--text);background:transparent;font-family:Inter,sans-serif;width:100%">
+            <option>1 Room · 2 Adults</option>
+            <option>1 Room · 1 Adult</option>
+            <option>2 Rooms · 4 Adults</option>
+          </select>
+          <div class="fc-sub">Guests &amp; Rooms</div>
+        </div>
+      </div>
+      <button class="btn-search-orange" onclick="openCheckout('hotel')">Search Hotels</button>
+    </div>
+
+    <!-- HOLIDAY PANEL -->
+    <div class="search-panel" id="panel-holiday">
+      <div class="field-card">
+        <div class="fc-code">🌴</div>
+        <div class="fc-info">
+          <select style="border:none;outline:none;font-size:14px;font-weight:600;color:var(--text);background:transparent;font-family:Inter,sans-serif;width:100%">
+            <option>Cox's Bazar</option><option>Bangkok, Thailand</option>
+            <option>Dubai, UAE</option><option>Maldives</option>
+            <option>Istanbul, Turkey</option><option>Kuala Lumpur</option>
+          </select>
+          <div class="fc-sub">Destination</div>
+        </div>
+      </div>
+      <div class="dates-row">
+        <div class="field-card" style="margin-bottom:0;flex-direction:column;align-items:flex-start">
+          <div style="font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;margin-bottom:4px">TRAVEL DATE</div>
+          <input type="date" style="border:none;outline:none;font-size:14px;font-weight:600;background:transparent;font-family:Inter,sans-serif;width:100%"/>
+        </div>
+        <div class="field-card" style="margin-bottom:0;flex-direction:column;align-items:flex-start">
+          <div style="font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;margin-bottom:4px">DURATION</div>
+          <select style="border:none;outline:none;font-size:14px;font-weight:600;background:transparent;font-family:Inter,sans-serif;width:100%">
+            <option>3–5 Days</option><option>5–7 Days</option><option>7–10 Days</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-card" style="margin-top:10px">
+        <div class="fc-code">👥</div>
+        <div class="fc-info">
+          <select style="border:none;outline:none;font-size:14px;font-weight:600;background:transparent;font-family:Inter,sans-serif;width:100%">
+            <option>2 Adults</option><option>Family (2+2)</option><option>4 Adults</option>
+          </select>
+          <div class="fc-sub">Travellers</div>
+        </div>
+      </div>
+      <button class="btn-search-orange" onclick="openCheckout('package')">Search Packages</button>
+    </div>
+
+    <!-- VISA PANEL -->
+    <div class="search-panel" id="panel-visa">
+      <div class="field-card">
+        <div class="fc-code">🌍</div>
+        <div class="fc-info">
+          <select style="border:none;outline:none;font-size:14px;font-weight:600;color:var(--text);background:transparent;font-family:Inter,sans-serif;width:100%">
+            <option>Thailand</option><option>Malaysia</option><option>UAE — Dubai</option>
+            <option>Schengen (Europe)</option><option>United Kingdom</option>
+            <option>USA</option><option>Australia</option><option>Canada</option>
+          </select>
+          <div class="fc-sub">Destination Country</div>
+        </div>
+      </div>
+      <div class="field-card">
+        <div class="fc-code">📋</div>
+        <div class="fc-info">
+          <select style="border:none;outline:none;font-size:14px;font-weight:600;color:var(--text);background:transparent;font-family:Inter,sans-serif;width:100%">
+            <option>Tourist Visa</option><option>Business Visa</option><option>Student Visa</option>
+          </select>
+          <div class="fc-sub">Visa Type</div>
+        </div>
+      </div>
+      <div class="dates-row">
+        <div class="field-card" style="margin-bottom:0;flex-direction:column;align-items:flex-start">
+          <div style="font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;margin-bottom:4px">TRAVEL DATE</div>
+          <input type="date" style="border:none;outline:none;font-size:14px;font-weight:600;background:transparent;font-family:Inter,sans-serif;width:100%"/>
+        </div>
+        <div class="field-card" style="margin-bottom:0;flex-direction:column;align-items:flex-start">
+          <div style="font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;margin-bottom:4px">APPLICANTS</div>
+          <select style="border:none;outline:none;font-size:14px;font-weight:600;background:transparent;font-family:Inter,sans-serif;width:100%">
+            <option>1 Person</option><option>2 Persons</option><option>Family</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn-search-orange" onclick="openCheckout('visa')">Check Visa &amp; Apply</button>
+    </div>
+
+    <!-- UMRAH PANEL -->
+    <div class="search-panel" id="panel-umrah">
+      <div class="field-card">
+        <div class="fc-code">🕋</div>
+        <div class="fc-info">
+          <select style="border:none;outline:none;font-size:14px;font-weight:600;color:var(--text);background:transparent;font-family:Inter,sans-serif;width:100%">
+            <option>Economy (Silver)</option><option>Standard (Gold)</option><option>Premium (Platinum)</option>
+          </select>
+          <div class="fc-sub">Package Type</div>
+        </div>
+      </div>
+      <div class="field-card">
+        <div class="fc-code">📅</div>
+        <div class="fc-info">
+          <select style="border:none;outline:none;font-size:14px;font-weight:600;color:var(--text);background:transparent;font-family:Inter,sans-serif;width:100%">
+            <option>Ramadan 2026</option><option>Shawwal 2026</option><option>Dhul Hijjah 2026</option>
+          </select>
+          <div class="fc-sub">Departure Month</div>
+        </div>
+      </div>
+      <div class="field-card">
+        <div class="fc-code">👥</div>
+        <div class="fc-info">
+          <select style="border:none;outline:none;font-size:14px;font-weight:600;color:var(--text);background:transparent;font-family:Inter,sans-serif;width:100%">
+            <option>1 Pilgrim</option><option>2 Pilgrims</option><option>Family (4)</option>
+          </select>
+          <div class="fc-sub">Number of Pilgrims</div>
+        </div>
+      </div>
+      <button class="btn-search-orange" onclick="openCheckout('package')">Find Umrah Packages</button>
+    </div>
+
+  </div><!-- end search-box -->
+</div><!-- end hero-bg -->
+
+<!-- EXCLUSIVE OFFERS -->
+<div class="section bg-gray" style="padding:28px 20px">
+  <div class="section-inner">
+    <div class="sec-title">Exclusive Offers</div>
+    <div style="height:14px"></div>
+    <div class="carousel">
+      <div class="offer-slide"><img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=320&q=80" alt="offer"/></div>
+      <div class="offer-slide"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=320&q=80" alt="offer"/></div>
+      <div class="offer-slide"><img src="https://images.unsplash.com/photo-1488085061387-422e29b40080?w=320&q=80" alt="offer"/></div>
+      <div class="offer-slide"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=320&q=80" alt="offer"/></div>
+    </div>
+    <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+
+    <!-- SUPERBRAND BANNER -->
+    <div class="superbrand" style="margin-top:20px">
+      <div class="superbrand-text">
+        <div class="st-logo-sm">TravelGo BD®</div>
+        <h3>1ST SUPERBRAND<br/>IN BANGLADESH<br/>TRAVEL SECTOR</h3>
+      </div>
+      <div class="superbrand-badge">AWARDED<br/>Super<br/>brands<br/>2025-26</div>
+    </div>
+    <div class="dots" style="margin-top:12px"><div class="dot active"></div><div class="dot"></div></div>
+  </div>
+</div>
+
+<!-- EXPLORE BANGLADESH -->
+<div class="section">
+  <div class="sec-title">Explore Bangladesh</div>
+  <p class="sec-sub">Prepare to experience Bangladesh's rich culture and explore the majestic beauties of Cox's Bazar, Sylhet, Bandarban, Sajek Valley, Rangamati etc.</p>
+  <div class="two-col">
+    <div class="dest-card" onclick="openDetail('hotel_longbeach')">
+      <img src="https://images.unsplash.com/photo-1583422409516-2895a77efded?w=400&q=80" alt="Chittagong"/>
+      <div class="dc-overlay"><div class="dc-name">Chittagong</div><div class="dc-count">36 Hotels Available</div></div>
+    </div>
+    <div class="dest-card" onclick="openDetail('hotel_sonargaon')">
+      <img src="https://images.unsplash.com/photo-1596422846543-75c6fc197f07?w=400&q=80" alt="Dhaka"/>
+      <div class="dc-overlay"><div class="dc-name">Dhaka</div><div class="dc-count">43 Hotels Available</div></div>
+    </div>
+    <div class="dest-card" onclick="openDetail('pkg_coxsbazar')">
+      <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80" alt="Cox's Bazar"/>
+      <div class="dc-overlay"><div class="dc-name">Cox's Bazar</div><div class="dc-count">28 Hotels Available</div></div>
+    </div>
+    <div class="dest-card" onclick="openDetail('hotel_mandarin')">
+      <img src="https://images.unsplash.com/photo-1519259245933-cb4752700f8a?w=400&q=80" alt="Sylhet"/>
+      <div class="dc-overlay"><div class="dc-name">Sylhet</div><div class="dc-count">19 Hotels Available</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SEARCH TOP AIRLINES -->
+<div class="section bg-gray" style="padding:28px 20px">
+  <div class="section-inner">
+    <div class="sec-title">Search Top Airlines</div>
+    <p class="sec-sub">TravelGo BD's user-friendly platform connects you to top airlines instantly. Enjoy a comfortable and hassle-free journey on any destination.</p>
+    <div class="airline-list">
+      <div class="airline-row" onclick="openCheckout('flight')">
+        <div class="airline-logo"><img src="https://airhex.com/images/airline-logos/square/biman-bangladesh-airlines.png" alt="Biman" onerror="this.parentNode.innerHTML='🛫'"/></div>
+        <div class="airline-name">Biman Bangladesh Airlines</div>
+        <div class="airline-arrow">›</div>
+      </div>
+      <div class="airline-row" onclick="openCheckout('flight')">
+        <div class="airline-logo"><img src="https://airhex.com/images/airline-logos/square/us-bangla-airlines.png" alt="US-Bangla" onerror="this.parentNode.innerHTML='🛫'"/></div>
+        <div class="airline-name">US-Bangla Airlines</div>
+        <div class="airline-arrow">›</div>
+      </div>
+      <div class="airline-row" onclick="openCheckout('flight')">
+        <div class="airline-logo"><img src="https://airhex.com/images/airline-logos/square/novoair.png" alt="NOVOAIR" onerror="this.parentNode.innerHTML='🛫'"/></div>
+        <div class="airline-name">NOVOAIR</div>
+        <div class="airline-arrow">›</div>
+      </div>
+      <div class="airline-row" onclick="openCheckout('flight')">
+        <div class="airline-logo" style="background:#fff8f0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#E8873A;border-radius:8px">ASTRA</div>
+        <div class="airline-name">Air Astra</div>
+        <div class="airline-arrow">›</div>
+      </div>
+      <div class="airline-row" onclick="openCheckout('flight')">
+        <div class="airline-logo"><img src="https://airhex.com/images/airline-logos/square/emirates.png" alt="Emirates" onerror="this.parentNode.innerHTML='🛫'"/></div>
+        <div class="airline-name">Emirates</div>
+        <div class="airline-arrow">›</div>
+      </div>
+      <div class="airline-row" onclick="openCheckout('flight')">
+        <div class="airline-logo"><img src="https://airhex.com/images/airline-logos/square/qatar-airways.png" alt="Qatar" onerror="this.parentNode.innerHTML='🛫'"/></div>
+        <div class="airline-name">Qatar Airways</div>
+        <div class="airline-arrow">›</div>
+      </div>
+    </div>
+    <button class="btn-load-more">Load More</button>
+  </div>
+</div>
+
+<!-- MOST POPULAR DESTINATIONS -->
+<div class="section">
+  <div class="sec-title">Most Popular Destinations</div>
+  <p class="sec-sub">Expand your travel horizons with new facets! Explore the world by choosing your ideal travel destinations in Asia, Europe, America, Australia and more.</p>
+  <div class="dest-carousel">
+    <div class="dest-slide" onclick="openDetail('hotel_sonargaon')">
+      <img src="https://images.unsplash.com/photo-1596422846543-75c6fc197f07?w=400&q=80" alt="Dhaka"/>
+      <div class="ds-overlay"><div class="ds-name">Dhaka</div></div>
+    </div>
+    <div class="dest-slide" onclick="openDetail('pkg_coxsbazar')" style="min-width:240px">
+      <img src="https://images.unsplash.com/photo-1519259245933-cb4752700f8a?w=400&q=80" alt="Sreemangal"/>
+      <div class="ds-overlay"><div class="ds-name">Sreemangal</div></div>
+    </div>
+    <div class="dest-slide" onclick="openDetail('pkg_bangkok')">
+      <img src="https://images.unsplash.com/photo-1508009603885-50cf7c8dd0d5?w=400&q=80" alt="Bangkok"/>
+      <div class="ds-overlay"><div class="ds-name">Bangkok</div></div>
+    </div>
+    <div class="dest-slide" onclick="openDetail('pkg_dubai')">
+      <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=400&q=80" alt="Dubai"/>
+      <div class="ds-overlay"><div class="ds-name">Dubai</div></div>
+    </div>
+    <div class="dest-slide" onclick="openDetail('pkg_turkey')">
+      <img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=400&q=80" alt="Istanbul"/>
+      <div class="ds-overlay"><div class="ds-name">Istanbul</div></div>
+    </div>
+  </div>
+  <div class="dots" style="margin-top:16px"><div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+</div>
+
+<!-- BEST HOTELS -->
+<div class="section bg-gray" style="padding:28px 20px">
+  <div class="section-inner">
+    <div class="sec-title">Best Hotels for Your Next Trip</div>
+    <p class="sec-sub">Luxurious or budget-friendly hotels, villas or resorts, browse accommodations at TravelGo BD that meet the need. Book long-term or short-term accommodation from our hotel deals.</p>
+    <div class="hotel-carousel">
+      <div class="hotel-slide" onclick="openDetail('hotel_sonargaon')">
+        <div class="hi"><img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80" alt="Hotel"/></div>
+        <div class="hn">Pan Pacific Sonargaon</div>
+        <div class="hr"><span class="star">★</span><span class="score">4.8</span><span class="reviews">(288 reviews)</span></div>
+      </div>
+      <div class="hotel-slide" onclick="openDetail('hotel_longbeach')">
+        <div class="hi"><img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=400&q=80" alt="Hotel"/></div>
+        <div class="hn">Long Beach Cox's Bazar</div>
+        <div class="hr"><span class="star">★</span><span class="score">4.5</span><span class="reviews">(193 reviews)</span></div>
+      </div>
+      <div class="hotel-slide" onclick="openDetail('hotel_atlantis')">
+        <div class="hi"><img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=400&q=80" alt="Hotel"/></div>
+        <div class="hn">Atlantis The Palm Dubai</div>
+        <div class="hr"><span class="star">★</span><span class="score">4.9</span><span class="reviews">(521 reviews)</span></div>
+      </div>
+      <div class="hotel-slide" onclick="openDetail('hotel_mandarin')">
+        <div class="hi"><img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400&q=80" alt="Hotel"/></div>
+        <div class="hn">Mandarin Oriental Bangkok</div>
+        <div class="hr"><span class="star">★</span><span class="score">4.9</span><span class="reviews">(412 reviews)</span></div>
+      </div>
+    </div>
+    <div class="dots" style="margin-top:14px"><div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+  </div>
+</div>
+
+<!-- TOUR PACKAGES -->
+<div class="section">
+  <div class="sec-title">Our Tour Packages for You</div>
+  <p class="sec-sub">Plan your dream gateway and choose from uncountable tour packages at TravelGo BD. Book our holiday packages for the best deals on any international trip.</p>
+    <div class="pkg-carousel">
+      <div class="pkg-slide" onclick="openDetail('pkg_maldives')">
+        <div class="pi"><img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc32?w=400&q=80" alt="Maldives"/></div>
+        <div class="pn">Maldives</div>
+        <div class="pr"><span class="star">★</span><span class="score">5.0</span><span class="reviews">(112 reviews)</span></div>
+      </div>
+      <div class="pkg-slide" onclick="openDetail('pkg_turkey')" style="min-width:240px">
+        <div class="pi"><img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=400&q=80" alt="Turkey"/></div>
+        <div class="pn">Istanbul & Cappadocia</div>
+        <div class="pr"><span class="star">★</span><span class="score">4.8</span><span class="reviews">(167 reviews)</span></div>
+      </div>
+      <div class="pkg-slide" onclick="openDetail('pkg_dubai')">
+        <div class="pi"><img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=400&q=80" alt="Dubai"/></div>
+        <div class="pn">Dubai City & Desert</div>
+        <div class="pr"><span class="star">★</span><span class="score">4.9</span><span class="reviews">(178 reviews)</span></div>
+      </div>
+      <div class="pkg-slide" onclick="openDetail('pkg_bangkok')">
+        <div class="pi"><img src="https://images.unsplash.com/photo-1508009603885-50cf7c8dd0d5?w=400&q=80" alt="Bangkok"/></div>
+        <div class="pn">Bangkok & Pattaya</div>
+        <div class="pr"><span class="star">★</span><span class="score">4.8</span><span class="reviews">(203 reviews)</span></div>
+      </div>
+    </div>
+  <div class="dots" style="margin-top:14px"><div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+</div>
+
+<!-- PARTNER BANNER -->
+<div class="partner-banner">
+  <h2>Grow Your Business with TravelGo Shop</h2>
+  <p>Partner with us to reach more customers, boost sales, and expand your brand effortlessly.</p>
+  <button class="btn-partner" onclick="alert('Demo: Partner registration coming soon!')">Become a Partner</button>
+</div>
+
+<!-- TOP ROUTES -->
+<div class="section">
+  <div class="sec-title">Top Domestic &amp; International Routes</div>
+  <p class="sec-sub">Make your next trip unforgettable with TravelGo BD! From business class to economy class flights on international trips or domestic ones, choose from hundreds of airlines.</p>
+  <div class="route-toggle">
+    <button class="rt-btn active" id="btnDomestic" onclick="switchRoutes('domestic')">Domestic</button>
+    <button class="rt-btn" id="btnIntl" onclick="switchRoutes('intl')">International</button>
+  </div>
+
+  <div id="routesDomestic">
+    <div class="route-row" onclick="openCheckout('flight')">
+      <div class="route-from"><div class="rf-city">Dhaka</div><div class="rf-airport">Hazrat Shahjalal Inte...</div></div>
+      <div class="route-icon">✈️</div>
+      <div class="route-to"><div class="rt-city">Cox's Bazar</div><div class="rt-airport">Cox's Bazar Airport</div></div>
+    </div>
+    <div class="route-row" onclick="openCheckout('flight')">
+      <div class="route-from"><div class="rf-city">Dhaka</div><div class="rf-airport">Hazrat Shahjalal Inte...</div></div>
+      <div class="route-icon">✈️</div>
+      <div class="route-to"><div class="rt-city">Jashore</div><div class="rt-airport">Jashore Airport</div></div>
+    </div>
+    <div class="route-row" onclick="openCheckout('flight')">
+      <div class="route-from"><div class="rf-city">Dhaka</div><div class="rf-airport">Hazrat Shahjalal Inte...</div></div>
+      <div class="route-icon">✈️</div>
+      <div class="route-to"><div class="rt-city">Chattogram</div><div class="rt-airport">Shah Amanat Intern...</div></div>
+    </div>
+    <div class="route-row" onclick="openCheckout('flight')">
+      <div class="route-from"><div class="rf-city">Dhaka</div><div class="rf-airport">Hazrat Shahjalal Inte...</div></div>
+      <div class="route-icon">✈️</div>
+      <div class="route-to"><div class="rt-city">Sylhet</div><div class="rt-airport">Osmany Internation...</div></div>
+    </div>
+    <div class="route-row" onclick="openCheckout('flight')">
+      <div class="route-from"><div class="rf-city">Dhaka</div><div class="rf-airport">Hazrat Shahjalal Inte...</div></div>
+      <div class="route-icon">✈️</div>
+      <div class="route-to"><div class="rt-city">Barisal</div><div class="rt-airport">Barisal Airport</div></div>
+    </div>
+  </div>
+
+  <div id="routesIntl" style="display:none">
+    <div class="route-row" onclick="openCheckout('flight')">
+      <div class="route-from"><div class="rf-city">Dhaka</div><div class="rf-airport">Hazrat Shahjalal Inte...</div></div>
+      <div class="route-icon">✈️</div>
+      <div class="route-to"><div class="rt-city">Dubai</div><div class="rt-airport">Dubai Intl Airport</div></div>
+    </div>
+    <div class="route-row" onclick="openCheckout('flight')">
+      <div class="route-from"><div class="rf-city">Dhaka</div><div class="rf-airport">Hazrat Shahjalal Inte...</div></div>
+      <div class="route-icon">✈️</div>
+      <div class="route-to"><div class="rt-city">Bangkok</div><div class="rt-airport">Suvarnabhumi Airport</div></div>
+    </div>
+    <div class="route-row" onclick="openCheckout('flight')">
+      <div class="route-from"><div class="rf-city">Dhaka</div><div class="rf-airport">Hazrat Shahjalal Inte...</div></div>
+      <div class="route-icon">✈️</div>
+      <div class="route-to"><div class="rt-city">Kuala Lumpur</div><div class="rt-airport">KL International Airport</div></div>
+    </div>
+    <div class="route-row" onclick="openCheckout('flight')">
+      <div class="route-from"><div class="rf-city">Dhaka</div><div class="rf-airport">Hazrat Shahjalal Inte...</div></div>
+      <div class="route-icon">✈️</div>
+      <div class="route-to"><div class="rt-city">London</div><div class="rt-airport">Heathrow Airport</div></div>
+    </div>
+    <div class="route-row" onclick="openCheckout('flight')">
+      <div class="route-from"><div class="rf-city">Dhaka</div><div class="rf-airport">Hazrat Shahjalal Inte...</div></div>
+      <div class="route-icon">✈️</div>
+      <div class="route-to"><div class="rt-city">Istanbul</div><div class="rt-airport">Istanbul Airport</div></div>
+    </div>
+  </div>
+  <button class="btn-load-more">Load More</button>
+</div>
+
+<!-- APP SECTION -->
+<div class="section bg-gray" style="padding:28px 20px">
+  <div class="section-inner">
+    <div class="sec-title">Your all-in-one Travel App</div>
+    <p class="sec-sub">Get flights, hotels, holidays and visa assistance in just a few taps. Enjoy real-time flight updates, schedules, travel info, and much more.</p>
+    <div class="app-btns" style="margin-bottom:16px">
+      <button class="app-store-btn" onclick="alert('Demo: App coming soon!')">
+        🍎
+        <div><span class="abl">Download on the</span><span class="abn">App Store</span></div>
+      </button>
+      <button class="app-store-btn" onclick="alert('Demo: App coming soon!')">
+        ▶️
+        <div><span class="abl">GET IT ON</span><span class="abn">Google Play</span></div>
+      </button>
+    </div>
+    <div class="qr-box">📱</div>
+    <div class="app-screens" style="margin-top:16px">📱</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo-row">
+      <div class="logo-icon">TG</div>
+      <span style="font-size:18px;font-weight:800;color:var(--blue);font-style:italic">TravelGo BD®</span>
+    </div>
+    <div class="footer-license">
+      MoCAT Certificate No.: 0012432<br/>
+      IATA Certificate No.: 42340012<br/>
+      DBID License No.: 402489389
+    </div>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Terms &amp; Conditions</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Hotel Sitemap</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#">Flight</a></li>
+          <li><a href="#">Hotel</a></li>
+          <li><a href="#">Holiday</a></li>
+          <li><a href="#">Visa</a></li>
+          <li><a href="#">Umrah</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 TravelGo BD. All rights reserved.</p>
+      <div class="payment-badges" style="margin-top:8px">
+        <span class="pay-b">bKash</span>
+        <span class="pay-b">Nagad</span>
+        <span class="pay-b">Rocket</span>
+        <span class="pay-b">VISA</span>
+        <span class="pay-b">Mastercard</span>
+        <span class="pay-b">SSL Commerz</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- CHECKOUT MODAL -->
+<div class="overlay" id="checkoutOverlay">
+  <div class="modal" style="position:relative">
+    <div class="modal-handle"></div>
+    <div class="modal-hd">
+      <h2 id="mTitle">Complete Your Booking</h2>
+      <p id="mSub">Fill in your details below</p>
+    </div>
+    <div class="modal-bd">
+      <div class="summary-box">
+        <div class="stitle">Booking Summary</div>
+        <div class="srow"><span class="sk" id="r1k">Route</span><span class="sv" id="r1v">DAC → Cox's Bazar</span></div>
+        <div class="srow"><span class="sk" id="r2k">Date</span><span class="sv" id="r2v">22 Jun 2026</span></div>
+        <div class="srow"><span class="sk" id="r3k">Passengers</span><span class="sv" id="r3v">1 Adult · Economy</span></div>
+        <div class="srow"><span class="sk">Taxes &amp; Fees</span><span class="sv" id="taxVal">৳ 1,800</span></div>
+        <div class="stotal"><span class="sk">Total</span><span class="sv" id="totalVal">৳ 8,500</span></div>
+      </div>
+      <div class="fgrow">
+        <div class="fg"><label>First Name</label><input type="text" placeholder="Mohammad"/></div>
+        <div class="fg"><label>Last Name</label><input type="text" placeholder="Rahman"/></div>
+      </div>
+      <div class="fgrow">
+        <div class="fg"><label>Email</label><input type="email" placeholder="you@email.com"/></div>
+        <div class="fg"><label>Phone</label><input type="tel" placeholder="01XXXXXXXXX"/></div>
+      </div>
+      <div class="fg"><label>Passport / NID</label><input type="text" placeholder="A00000000"/></div>
+      <div class="pay-label">Payment Method</div>
+      <div class="pm-grid">
+        <button class="pm active" onclick="selPM(this)">bKash</button>
+        <button class="pm" onclick="selPM(this)">Nagad</button>
+        <button class="pm" onclick="selPM(this)">Rocket</button>
+        <button class="pm" onclick="selPM(this)">VISA/MC</button>
+        <button class="pm" onclick="selPM(this)">Net Banking</button>
+      </div>
+      <div class="ssl-note">🔒 Secured by SSL Commerz — 100% safe &amp; encrypted</div>
+      <button class="btn-pay" onclick="fakePay()">Proceed to Pay — <span id="payBtn">৳ 8,500</span></button>
+      <div class="demo-note">⚠️ Demo only — no real payment is processed</div>
+    </div>
+    <button class="modal-x-top" onclick="closeCheckout()">✕</button>
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="overlay" id="authOverlay">
+  <div class="modal" style="position:relative">
+    <div class="modal-handle"></div>
+    <div class="modal-hd"><h2>Welcome to TravelGo BD</h2><p>Sign in to manage your bookings</p></div>
+    <div class="modal-bd">
+      <div class="auth-tabs">
+        <div class="at active" id="atL" onclick="switchAuth('login')">Login</div>
+        <div class="at" id="atS" onclick="switchAuth('signup')">Sign Up</div>
+      </div>
+      <div id="loginForm">
+        <div class="fg"><label>Email or Phone</label><input type="text" placeholder="Email or 01XXXXXXXXX"/></div>
+        <div class="fg"><label>Password</label><input type="password" placeholder="••••••••"/></div>
+        <button class="btn-pay" onclick="alert('Demo: Logged in!')">Login</button>
+        <p style="text-align:center;margin-top:12px;font-size:12px;color:var(--muted)">Forgot password? <a href="#" style="color:var(--blue)">Reset here</a></p>
+      </div>
+      <div id="signupForm" style="display:none">
+        <div class="fgrow">
+          <div class="fg"><label>First Name</label><input type="text" placeholder="Mohammad"/></div>
+          <div class="fg"><label>Last Name</label><input type="text" placeholder="Rahman"/></div>
+        </div>
+        <div class="fg"><label>Email</label><input type="email" placeholder="you@email.com"/></div>
+        <div class="fg"><label>Phone</label><input type="tel" placeholder="01XXXXXXXXX"/></div>
+        <div class="fg"><label>Password</label><input type="password" placeholder="Create a password"/></div>
+        <button class="btn-pay" onclick="alert('Demo: Account created!')">Create Account</button>
+      </div>
+      <div class="demo-note" style="margin-top:10px">⚠️ Demo only — no real accounts are created</div>
+    </div>
+    <button class="modal-x-top" onclick="closeAuth()">✕</button>
+  </div>
+</div>
+
+<!-- ── DETAIL MODAL ── -->
+<div class="detail-overlay" id="detailOverlay">
+  <div class="detail-inner">
+
+    <!-- TOP BAR -->
+    <div class="detail-topbar">
+      <button class="detail-back" onclick="closeDetail()">‹</button>
+      <div class="detail-topbar-title" id="dtTitle">Hotel Detail</div>
+    </div>
+
+    <!-- IMAGE GALLERY -->
+    <div class="gallery">
+      <img class="gallery-main" id="galleryMain" src="" alt=""/>
+      <div class="gallery-count" id="galleryCount">1 / 4</div>
+    </div>
+    <div class="gallery-thumbs" id="galleryThumbs"></div>
+
+    <!-- BODY -->
+    <div class="detail-body">
+      <div class="detail-name" id="dtName"></div>
+      <div class="detail-loc" id="dtLoc">📍 <span id="dtLocText"></span></div>
+      <div class="detail-rating">
+        <div class="rating-badge" id="dtScore"></div>
+        <div class="rating-stars" id="dtStars"></div>
+        <div class="rating-count" id="dtReviewCount"></div>
+      </div>
+
+      <div class="detail-price-bar">
+        <div>
+          <div class="dpb-from">Starting from</div>
+          <div class="dpb-amt" id="dtPrice"></div>
+          <div class="dpb-per" id="dtPricePer"></div>
+        </div>
+        <div class="dpb-tag" id="dtTag"></div>
+      </div>
+
+      <!-- TABS -->
+      <div class="detail-tabs">
+        <div class="dtab active" onclick="switchDTab('overview',this)">Overview</div>
+        <div class="dtab" onclick="switchDTab('includes',this)">Includes</div>
+        <div class="dtab" onclick="switchDTab('reviews',this)">Reviews</div>
+      </div>
+
+      <!-- OVERVIEW TAB -->
+      <div class="dtab-panel active" id="dp-overview">
+        <p class="detail-desc" id="dtDesc"></p>
+        <div class="amenities-grid" id="dtAmenities"></div>
+      </div>
+
+      <!-- INCLUDES TAB -->
+      <div class="dtab-panel" id="dp-includes">
+        <div class="include-list" id="dtIncludes"></div>
+      </div>
+
+      <!-- REVIEWS TAB -->
+      <div class="dtab-panel" id="dp-reviews">
+        <div class="review-list" id="dtReviews"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- STICKY BOOK BAR (shown when detail open) -->
+<div class="detail-book-bar" id="detailBookBar">
+  <div class="detail-book-bar-inner">
+    <div class="dbb-price">
+      <span id="dbbPricePer"></span>
+      <span id="dbbPrice"></span>
+    </div>
+    <button class="btn-book-now" id="dbbBtn" onclick="bookFromDetail()">Book Now</button>
+  </div>
+</div>
+
+<script>
+// ── DATA STORE ──
+const CARDS = {
+  hotel_sonargaon:{
+    type:'hotel',
+    name:'Pan Pacific Sonargaon',
+    loc:'Karwan Bazar, Dhaka, Bangladesh',
+    score:'4.8',stars:'★★★★★',reviews:'288 reviews',
+    price:'৳ 8,500',per:'per night',tag:'Free Breakfast',
+    checkoutType:'hotel',
+    images:[
+      'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80',
+      'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800&q=80',
+      'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&q=80',
+      'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800&q=80',
+    ],
+    desc:'Pan Pacific Sonargaon Dhaka is an iconic 5-star luxury hotel in the heart of Dhaka, offering world-class amenities, exquisite dining, and impeccable service. Perfect for business and leisure travellers alike. Features stunning city views, rooftop pool, and award-winning restaurants.',
+    amenities:['🏊 Swimming Pool','🍽️ Fine Dining','💪 Fitness Center','🚗 Free Parking','📶 Free Wi-Fi','🧖 Spa & Wellness','🧺 Laundry Service','🏨 24/7 Room Service'],
+    includes:[
+      {icon:'🛏️',label:'Room Type',text:'Deluxe King Room — 42 sqm with city view, king bed, and modern bathroom'},
+      {icon:'🍳',label:'Breakfast',text:'Complimentary buffet breakfast for 2 at The Café, 7am–11am daily'},
+      {icon:'📶',label:'Wi-Fi',text:'High-speed fibre internet throughout the property, complimentary'},
+      {icon:'🚗',label:'Parking',text:'Complimentary self-parking available. Valet available at extra cost'},
+      {icon:'❌',label:'Cancellation',text:'Free cancellation up to 48 hours before check-in. Non-refundable after.'},
+    ],
+    reviews:[
+      {name:'Rafiq A.',date:'May 2025',stars:'★★★★★',text:'Absolutely stunning hotel. The breakfast was incredible and the staff was extremely helpful. Room was spacious and clean. Will definitely return!'},
+      {name:'Nasrin S.',date:'April 2025',stars:'★★★★★',text:'Perfect for our anniversary trip. The rooftop pool is breathtaking and the service exceeded our expectations. Highly recommended!'},
+      {name:'Kamal H.',date:'March 2025',stars:'★★★★☆',text:'Great hotel in a convenient location. Room was beautiful but the gym equipment could use updating. Overall a fantastic stay.'},
+    ]
+  },
+  hotel_longbeach:{
+    type:'hotel',
+    name:'Long Beach Cox\'s Bazar',
+    loc:'Sea Beach Road, Cox\'s Bazar, Bangladesh',
+    score:'4.5',stars:'★★★★☆',reviews:'193 reviews',
+    price:'৳ 5,200',per:'per night',tag:'Sea View',
+    checkoutType:'hotel',
+    images:[
+      'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&q=80',
+      'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80',
+      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80',
+      'https://images.unsplash.com/photo-1544644181-1484b3fdfc32?w=800&q=80',
+    ],
+    desc:'Long Beach Hotel is a premier beachfront property at Cox\'s Bazar, the world\'s longest natural sea beach. Wake up to stunning ocean views, enjoy fresh seafood, and relax with the sound of waves. Perfect for families and couples seeking a tropical getaway.',
+    amenities:['🏖️ Beach Access','🍽️ Seafood Restaurant','🏊 Outdoor Pool','📶 Free Wi-Fi','🧘 Yoga Deck','🎣 Water Sports','🌅 Sunrise Views','🚌 Airport Shuttle'],
+    includes:[
+      {icon:'🛏️',label:'Room Type',text:'Sea View Standard Room — 32 sqm with private balcony overlooking the beach'},
+      {icon:'🍳',label:'Meals',text:'Breakfast included daily. Lunch & dinner available at the Sea Breeze Restaurant'},
+      {icon:'🏖️',label:'Beach',text:'Direct private beach access with sunbeds and umbrellas included'},
+      {icon:'🚌',label:'Transport',text:'Complimentary airport/bus stand pickup and drop-off once per stay'},
+      {icon:'❌',label:'Cancellation',text:'Free cancellation up to 72 hours before check-in.'},
+    ],
+    reviews:[
+      {name:'Rina B.',date:'June 2025',stars:'★★★★★',text:'The sea view from our room was absolutely magical. We watched the sunrise every morning. Amazing food and very friendly staff!'},
+      {name:'Tariq M.',date:'May 2025',stars:'★★★★☆',text:'Great location right on the beach. Rooms are clean and comfortable. The seafood here is the best I have had anywhere in Bangladesh.'},
+      {name:'Farzana K.',date:'April 2025',stars:'★★★★☆',text:'Came with family for Eid. Pool was great for the kids and the beach activities were fun. Only wish breakfast had more variety.'},
+    ]
+  },
+  hotel_atlantis:{
+    type:'hotel',
+    name:'Atlantis The Palm Dubai',
+    loc:'Palm Jumeirah, Dubai, UAE',
+    score:'4.9',stars:'★★★★★',reviews:'521 reviews',
+    price:'৳ 42,000',per:'per night',tag:'Iconic Resort',
+    checkoutType:'hotel',
+    images:[
+      'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800&q=80',
+      'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&q=80',
+      'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800&q=80',
+      'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80',
+    ],
+    desc:'Atlantis The Palm is Dubai\'s legendary resort on the iconic Palm Jumeirah. Home to Aquaventure Waterpark, The Lost Chambers Aquarium, 23 world-class restaurants, and a private beach. An unforgettable experience that blends luxury with adventure.',
+    amenities:['🌊 Waterpark Access','🐠 Aquarium','🍽️ 23 Restaurants','🏖️ Private Beach','💆 Spa','🎰 Casino','🛍️ Designer Shops','🏊 11 Pools'],
+    includes:[
+      {icon:'🛏️',label:'Room Type',text:'Ocean King Room — 60 sqm with private terrace and panoramic Palm Jumeirah views'},
+      {icon:'🌊',label:'Aquaventure',text:'Complimentary unlimited access to Aquaventure Waterpark for all guests'},
+      {icon:'🐠',label:'Aquarium',text:'Access to The Lost Chambers Aquarium with 65,000 marine animals included'},
+      {icon:'🍳',label:'Breakfast',text:'Daily buffet breakfast for 2 at Saffron restaurant, the largest buffet in Dubai'},
+      {icon:'❌',label:'Cancellation',text:'Free cancellation up to 7 days before check-in. 50% charge within 7 days.'},
+    ],
+    reviews:[
+      {name:'Ahmed S.',date:'May 2025',stars:'★★★★★',text:'A dream come true! The waterpark was fantastic for the whole family. Every restaurant we tried was world class. Worth every taka!'},
+      {name:'Shirin T.',date:'April 2025',stars:'★★★★★',text:'Celebrating our honeymoon here was the best decision ever. The room view was breathtaking and the spa treatment was heavenly.'},
+      {name:'Jamil R.',date:'March 2025',stars:'★★★★★',text:'Stayed 5 nights and did not want to leave. The staff knows your name by day 2. Truly 5-star service in every sense.'},
+    ]
+  },
+  hotel_mandarin:{
+    type:'hotel',
+    name:'Mandarin Oriental Bangkok',
+    loc:'Charoenkrung Road, Bangkok, Thailand',
+    score:'4.9',stars:'★★★★★',reviews:'412 reviews',
+    price:'৳ 22,000',per:'per night',tag:'Historic Luxury',
+    checkoutType:'hotel',
+    images:[
+      'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800&q=80',
+      'https://images.unsplash.com/photo-1508009603885-50cf7c8dd0d5?w=800&q=80',
+      'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80',
+      'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&q=80',
+    ],
+    desc:'The Mandarin Oriental Bangkok is one of the world\'s great hotels, gracing the banks of the Chao Phraya River since 1876. With legendary service, iconic riverside location, exquisite Thai cuisine, and world-famous spa, it continues to set the standard for luxury hospitality in Asia.',
+    amenities:['🌊 River View','🍽️ 10 Restaurants','💆 World Famous Spa','🛥️ River Shuttle','📶 Free Wi-Fi','🏊 2 Pools','🎭 Cultural Shows','🛍️ Boutique'],
+    includes:[
+      {icon:'🛏️',label:'Room Type',text:'Deluxe River View Room — 55 sqm overlooking the Chao Phraya River'},
+      {icon:'🛥️',label:'River Transport',text:'Complimentary hotel boat shuttle service to major Bangkok attractions'},
+      {icon:'🍳',label:'Breakfast',text:'Daily breakfast at The Terrace restaurant with panoramic river views'},
+      {icon:'💆',label:'Spa Credit',text:'฿500 spa credit per stay applicable to any treatment at the renowned Oriental Spa'},
+      {icon:'❌',label:'Cancellation',text:'Free cancellation up to 48 hours before check-in.'},
+    ],
+    reviews:[
+      {name:'Dilnoza R.',date:'June 2025',stars:'★★★★★',text:'Perfection. The river view at sunset is something I will never forget. Thai massage at the spa was the best of my life. Truly legendary.'},
+      {name:'Hassan M.',date:'May 2025',stars:'★★★★★',text:'Stayed here for our 10th anniversary. The staff remembered our preferences from a visit 3 years ago. That is what true luxury means.'},
+      {name:'Piya L.',date:'April 2025',stars:'★★★★★',text:'The Author\'s Lounge afternoon tea is a must. History, elegance, incredible food. This hotel is in a class of its own.'},
+    ]
+  },
+  pkg_coxsbazar:{
+    type:'package',
+    name:"Cox's Bazar Beach Escape",
+    loc:"Cox's Bazar, Bangladesh",
+    score:'4.7',stars:'★★★★★',reviews:'156 reviews',
+    price:'৳ 14,500',per:'per person',tag:'Best Seller',
+    checkoutType:'package',
+    images:[
+      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80',
+      'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&q=80',
+      'https://images.unsplash.com/photo-1544644181-1484b3fdfc32?w=800&q=80',
+      'https://images.unsplash.com/photo-1519259245933-cb4752700f8a?w=800&q=80',
+    ],
+    desc:"Experience Bangladesh's crown jewel — Cox's Bazar, the world's longest unbroken sea beach stretching 120 km. This package includes return flights from Dhaka, 3 nights at a beachfront 4-star hotel, daily breakfast, and guided tours of local attractions.",
+    amenities:['✈️ Return Flights','🏨 4-Star Hotel','🍳 Daily Breakfast','🚌 All Transfers','🗺️ Guided Tour','📷 Photo Spots','🐟 Seafood Dinner','🌅 Sunset Cruise'],
+    includes:[
+      {icon:'✈️',label:'Flights',text:'Return flights Dhaka (DAC) ↔ Cox\'s Bazar (CXB) on Biman or US-Bangla Airlines'},
+      {icon:'🏨',label:'Hotel',text:"3 nights at Long Beach Hotel or similar 4-star beachfront property (sea view room)"},
+      {icon:'🍳',label:'Meals',text:'Daily breakfast included. One complimentary seafood dinner at beach restaurant'},
+      {icon:'🗺️',label:'Tours',text:"Inani Beach, Himchhari Waterfall, Buddhist Temple, local fish market guided tours"},
+      {icon:'🚌',label:'Transfers',text:'All airport and hotel transfers included in air-conditioned vehicle'},
+    ],
+    reviews:[
+      {name:'Sadia K.',date:'May 2025',stars:'★★★★★',text:'Perfect family trip! Everything was arranged beautifully. The sunset cruise was the highlight. Kids absolutely loved the beach. Will book again!'},
+      {name:'Minhaj R.',date:'April 2025',stars:'★★★★★',text:'Flawless experience from start to finish. Hotel was great, tours were well-organized. The seafood dinner on the beach was unforgettable.'},
+      {name:'Anika T.',date:'March 2025',stars:'★★★★☆',text:"Great value for money. The flight was on time and hotel was clean and comfortable. Cox's Bazar is truly beautiful."},
+    ]
+  },
+  pkg_bangkok:{
+    type:'package',
+    name:'Bangkok & Pattaya Delight',
+    loc:'Bangkok & Pattaya, Thailand',
+    score:'4.8',stars:'★★★★★',reviews:'203 reviews',
+    price:'৳ 52,000',per:'per person',tag:'Most Popular',
+    checkoutType:'package',
+    images:[
+      'https://images.unsplash.com/photo-1508009603885-50cf7c8dd0d5?w=800&q=80',
+      'https://images.unsplash.com/photo-1519259245933-cb4752700f8a?w=800&q=80',
+      'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800&q=80',
+      'https://images.unsplash.com/photo-1544644181-1484b3fdfc32?w=800&q=80',
+    ],
+    desc:'The ultimate Thailand experience! Explore vibrant Bangkok — temples, street food, shopping malls — then relax in Pattaya with beautiful beaches, water parks, and world-class entertainment. A perfect mix of culture and leisure for every type of traveller.',
+    amenities:['✈️ Return Flights','🏨 4-Star Hotels','🍳 Breakfast Daily','🚌 All Transfers','🗺️ 4 City Tours','🛍️ Shopping Tour','🌊 Pattaya Beach','🎭 Alcazar Show'],
+    includes:[
+      {icon:'✈️',label:'Flights',text:'Return flights Dhaka (DAC) ↔ Bangkok (BKK) — economy class, 20kg baggage'},
+      {icon:'🏨',label:'Hotels',text:'3 nights Bangkok 4-star + 2 nights Pattaya beachfront 4-star hotel'},
+      {icon:'🗺️',label:'Tours',text:'Grand Palace, Wat Pho, Coral Island, Sanctuary of Truth, Pattaya City Tour'},
+      {icon:'🌊',label:'Activities',text:'Coral Island speedboat trip, Alcazar cabaret show, optional ATV & quad biking'},
+      {icon:'🚌',label:'Transfers',text:'All airport, inter-city, and hotel transfers in air-conditioned minivan'},
+    ],
+    reviews:[
+      {name:'Imran H.',date:'June 2025',stars:'★★★★★',text:'Absolutely loved every moment! Bangkok shopping was incredible and Pattaya beach was relaxing. The guide was very knowledgeable and funny!'},
+      {name:'Laila F.',date:'May 2025',stars:'★★★★★',text:'Went with my husband for our honeymoon. TravelGo arranged everything perfectly. The Alcazar show was spectacular. Highly recommend!'},
+      {name:'Rashed U.',date:'April 2025',stars:'★★★★★',text:'Best value international package I have found. 6 days felt like a dream. Will definitely book the Dubai package next!'},
+    ]
+  },
+  pkg_dubai:{
+    type:'package',
+    name:'Dubai City & Desert Safari',
+    loc:'Dubai, UAE',
+    score:'4.9',stars:'★★★★★',reviews:'178 reviews',
+    price:'৳ 78,000',per:'per person',tag:'Luxury Pick',
+    checkoutType:'package',
+    images:[
+      'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&q=80',
+      'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800&q=80',
+      'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=800&q=80',
+      'https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=800&q=80',
+    ],
+    desc:'Dubai — where ultramodern architecture meets ancient desert traditions. Visit the Burj Khalifa, shop at Dubai Mall, cruise the Marina, and experience an unforgettable desert safari with BBQ dinner under the stars. A must-do destination from Bangladesh.',
+    amenities:['✈️ Return Flights','🏨 5-Star Hotel','🍳 Breakfast Daily','🏜️ Desert Safari','🌆 City Tour','🛥️ Dhow Cruise','🛍️ Dubai Mall','🎡 Global Village'],
+    includes:[
+      {icon:'✈️',label:'Flights',text:'Return flights Dhaka (DAC) ↔ Dubai (DXB) — economy class, Emirates or flydubai'},
+      {icon:'🏨',label:'Hotel',text:'4 nights at a 5-star hotel in Downtown Dubai or JBR area (breakfast included)'},
+      {icon:'🏜️',label:'Desert Safari',text:'Evening desert safari — dune bashing, camel ride, BBQ dinner & belly dance show'},
+      {icon:'🌆',label:'City Tour',text:'Burj Khalifa (124th floor), Dubai Mall, Gold Souk, Spice Souk, Jumeirah Mosque'},
+      {icon:'🛥️',label:'Dhow Cruise',text:'Marina Dhow Cruise with dinner, live entertainment and stunning city light views'},
+    ],
+    reviews:[
+      {name:'Zahir A.',date:'June 2025',stars:'★★★★★',text:'Dubai exceeded every expectation. The desert safari was the highlight — watching the sunset from the dunes is something I will never forget!'},
+      {name:'Sumaiya B.',date:'May 2025',stars:'★★★★★',text:'Went with family for Eid. Kids loved the Burj Khalifa and adults loved the Dhow cruise. Perfect balance of activities. 10/10!'},
+      {name:'Nabil C.',date:'April 2025',stars:'★★★★★',text:'Top notch organisation. Hotel was right next to the Dubai Mall. TravelGo BD handled everything, we just had to show up and enjoy!'},
+    ]
+  },
+  pkg_maldives:{
+    type:'package',
+    name:'Maldives Overwater Bungalow',
+    loc:'North Malé Atoll, Maldives',
+    score:'5.0',stars:'★★★★★',reviews:'112 reviews',
+    price:'৳ 1,45,000',per:'per person',tag:'Honeymoon Special',
+    checkoutType:'package',
+    images:[
+      'https://images.unsplash.com/photo-1544644181-1484b3fdfc32?w=800&q=80',
+      'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&q=80',
+      'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800&q=80',
+      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80',
+    ],
+    desc:'The Maldives — the ultimate tropical paradise. Crystal-clear turquoise lagoons, pure white sandbanks, and the most spectacular marine life on earth. Stay in a private overwater bungalow with a glass floor, direct lagoon access, and 180° ocean views. Pure perfection.',
+    amenities:['✈️ All Flights','🌊 Overwater Bungalow','🍽️ Full Board','🤿 Snorkelling','🐠 Diving','🛥️ Speedboat','🌅 Sunset Cruise','💑 Couple Perks'],
+    includes:[
+      {icon:'✈️',label:'Flights',text:'Return international + domestic seaplane/speedboat transfers to the resort'},
+      {icon:'🌊',label:'Bungalow',text:'4 nights overwater bungalow with glass floor, private deck & direct lagoon access'},
+      {icon:'🍽️',label:'Full Board',text:'All meals included — breakfast, lunch, and dinner at the resort restaurant'},
+      {icon:'🤿',label:'Activities',text:'2 guided snorkelling trips, 1 introductory dive session, sunset dolphin cruise'},
+      {icon:'💑',label:'Couple Perks',text:'Welcome champagne, flower bath setup, romantic beach dinner for 2 (1 night)'},
+    ],
+    reviews:[
+      {name:'Tanvir & Rima',date:'May 2025',stars:'★★★★★',text:'Our honeymoon. Absolute perfection. Waking up and jumping from our bungalow into the crystal water is a memory we will treasure forever.'},
+      {name:'Ovi S.',date:'April 2025',stars:'★★★★★',text:'If you are going to splurge anywhere in your life, make it the Maldives. The snorkelling was out of this world. Manta rays!'},
+      {name:'Mehjabin A.',date:'March 2025',stars:'★★★★★',text:'TravelGo BD organised everything flawlessly. Not a single hiccup in the entire trip. The resort staff were unbelievably kind.'},
+    ]
+  },
+  pkg_turkey:{
+    type:'package',
+    name:'Turkey — Istanbul & Cappadocia',
+    loc:'Istanbul & Cappadocia, Turkey',
+    score:'4.8',stars:'★★★★★',reviews:'167 reviews',
+    price:'৳ 1,10,000',per:'per person',tag:'Cultural Journey',
+    checkoutType:'package',
+    images:[
+      'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=800&q=80',
+      'https://images.unsplash.com/photo-1519259245933-cb4752700f8a?w=800&q=80',
+      'https://images.unsplash.com/photo-1596422846543-75c6fc197f07?w=800&q=80',
+      'https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=800&q=80',
+    ],
+    desc:'Turkey is a land where Europe meets Asia — a tapestry of ancient history, stunning landscapes, and incredible food. Explore the legendary Hagia Sophia and Grand Bazaar in Istanbul, then fly to magical Cappadocia for the iconic hot air balloon ride over fairy chimneys at sunrise.',
+    amenities:['✈️ All Flights','🏨 4-Star Hotels','🍳 Breakfast Daily','🎈 Hot Air Balloon','🕌 City Tours','🛍️ Grand Bazaar','🚢 Bosphorus Cruise','🌄 Sunrise Views'],
+    includes:[
+      {icon:'✈️',label:'Flights',text:'Return DAC ↔ IST + domestic Istanbul ↔ Cappadocia (Kayseri) round trip'},
+      {icon:'🏨',label:'Hotels',text:'4 nights Istanbul 4-star + 3 nights Cappadocia cave hotel'},
+      {icon:'🎈',label:'Balloon Ride',text:'Sunrise hot air balloon ride over the Cappadocia valleys — most iconic experience'},
+      {icon:'🕌',label:'Istanbul Tours',text:'Hagia Sophia, Topkapi Palace, Blue Mosque, Grand Bazaar, Bosphorus dinner cruise'},
+      {icon:'🌄',label:'Cappadocia',text:'Rose Valley hike, underground city, pottery workshop, local cuisine experience'},
+    ],
+    reviews:[
+      {name:'Shakil H.',date:'June 2025',stars:'★★★★★',text:'The hot air balloon at sunrise made me cry. I am not ashamed. Cappadocia is from another world. Istanbul food is unreal. Go!'},
+      {name:'Rupa M.',date:'May 2025',stars:'★★★★★',text:'Travelled solo with this group tour. Met amazing people from BD. Turkey is incredibly welcoming to Bangladeshis. Loved every second.'},
+      {name:'Farhan K.',date:'April 2025',stars:'★★★★★',text:'7 nights felt like a month worth of memories. The cave hotel in Cappadocia was an experience in itself. Thank you TravelGo BD!'},
+    ]
+  },
+  pkg_singapore:{
+    type:'package',
+    name:'Singapore City Explorer',
+    loc:'Singapore',
+    score:'4.7',stars:'★★★★★',reviews:'134 reviews',
+    price:'৳ 68,000',per:'per person',tag:'Family Favourite',
+    checkoutType:'package',
+    images:[
+      'https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=800&q=80',
+      'https://images.unsplash.com/photo-1508009603885-50cf7c8dd0d5?w=800&q=80',
+      'https://images.unsplash.com/photo-1596422846543-75c6fc197f07?w=800&q=80',
+      'https://images.unsplash.com/photo-1519259245933-cb4752700f8a?w=800&q=80',
+    ],
+    desc:"Singapore — Asia's most impressive city-state. A perfect blend of world-class food, futuristic architecture, lush gardens, and top-tier family attractions. From the iconic Gardens by the Bay to Universal Studios and Sentosa Island, Singapore delivers an unforgettable experience.",
+    amenities:['✈️ Return Flights','🏨 4-Star Hotel','🍳 Breakfast','🎡 Sentosa Island','🌿 Gardens by Bay','🎢 Universal Studios','🛍️ Orchard Road','🦁 Singapore Zoo'],
+    includes:[
+      {icon:'✈️',label:'Flights',text:'Return flights DAC ↔ SIN — economy, Singapore Airlines or Scoot, 20kg baggage'},
+      {icon:'🏨',label:'Hotel',text:'4 nights at a 4-star hotel in Orchard Road or Marina Bay area'},
+      {icon:'🎡',label:'Sentosa',text:'Sentosa Island day pass including cable car, Universal Studios tickets (1 day)'},
+      {icon:'🌿',label:'Gardens',text:'Gardens by the Bay admission including Cloud Forest and Flower Dome domes'},
+      {icon:'🦁',label:'Zoo',text:'Singapore Zoo half-day guided tour with River Safari included'},
+    ],
+    reviews:[
+      {name:'Tasneem A.',date:'June 2025',stars:'★★★★★',text:'Took the family with two kids aged 8 and 12. Both loved Universal Studios. Singapore is so clean and safe. A perfect family destination!'},
+      {name:'Mahbub R.',date:'May 2025',stars:'★★★★★',text:'Gardens by the Bay light show at night is pure magic. Food everywhere was amazing and cheap. Singapore exceeded my expectations!'},
+      {name:'Shetu D.',date:'April 2025',stars:'★★★★☆',text:'Great trip overall. Only wish we had more days! 5 days was not enough for everything Singapore has to offer. Will come back soon.'},
+    ]
+  },
+};
+
+let currentDetailKey = null;
+
+function openDetail(key){
+  const d = CARDS[key];
+  if(!d) return;
+  currentDetailKey = key;
+
+  // populate header
+  document.getElementById('dtTitle').textContent = d.name;
+  document.getElementById('dtName').textContent = d.name;
+  document.getElementById('dtLocText').textContent = d.loc;
+  document.getElementById('dtScore').textContent = d.score;
+  document.getElementById('dtStars').textContent = d.stars;
+  document.getElementById('dtReviewCount').textContent = d.reviews;
+  document.getElementById('dtPrice').textContent = d.price;
+  document.getElementById('dtPricePer').textContent = d.per;
+  document.getElementById('dtTag').textContent = d.tag;
+  document.getElementById('dbbPrice').textContent = d.price;
+  document.getElementById('dbbPricePer').textContent = d.per;
+
+  // gallery
+  const main = document.getElementById('galleryMain');
+  main.src = d.images[0];
+  document.getElementById('galleryCount').textContent = '1 / ' + d.images.length;
+  const thumbs = document.getElementById('galleryThumbs');
+  thumbs.innerHTML = '';
+  d.images.forEach((src,i)=>{
+    const t = document.createElement('div');
+    t.className = 'gallery-thumb' + (i===0?' active':'');
+    t.innerHTML = '<img src="'+src+'" alt="photo '+i+'"/>';
+    t.onclick = ()=>{
+      main.src = src;
+      document.getElementById('galleryCount').textContent = (i+1)+' / '+d.images.length;
+      document.querySelectorAll('.gallery-thumb').forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+    };
+    thumbs.appendChild(t);
+  });
+
+  // desc + amenities
+  document.getElementById('dtDesc').textContent = d.desc;
+  const ag = document.getElementById('dtAmenities');
+  ag.innerHTML = '';
+  d.amenities.forEach(a=>{
+    const [icon,...rest] = a.split(' ');
+    ag.innerHTML += '<div class="amenity"><span class="ai">'+icon+'</span><span>'+rest.join(' ')+'</span></div>';
+  });
+
+  // includes
+  const il = document.getElementById('dtIncludes');
+  il.innerHTML = '';
+  d.includes.forEach(inc=>{
+    il.innerHTML += '<div class="include-item"><div class="ii-icon">'+inc.icon+'</div><div class="ii-text"><span class="ii-label">'+inc.label+'</span>'+inc.text+'</div></div>';
+  });
+
+  // reviews
+  const rl = document.getElementById('dtReviews');
+  rl.innerHTML = '';
+  d.reviews.forEach(r=>{
+    rl.innerHTML += '<div class="review-card"><div class="rc-head"><div class="rc-av">'+r.name[0]+'</div><div><div class="rc-name">'+r.name+'</div><div class="rc-date">'+r.date+'</div></div></div><div class="rc-stars">'+r.stars+'</div><div class="rc-text">'+r.text+'</div></div>';
+  });
+
+  // reset tabs
+  document.querySelectorAll('.dtab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.dtab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.dtab')[0].classList.add('active');
+  document.getElementById('dp-overview').classList.add('active');
+
+  document.getElementById('detailOverlay').classList.add('open');
+  document.getElementById('detailBookBar').classList.add('open');
+  document.getElementById('detailOverlay').scrollTop = 0;
+  document.body.style.overflow='hidden';
+}
+
+function closeDetail(){
+  document.getElementById('detailOverlay').classList.remove('open');
+  document.getElementById('detailBookBar').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function switchDTab(tab, el){
+  document.querySelectorAll('.dtab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.dtab-panel').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('dp-'+tab).classList.add('active');
+}
+
+function bookFromDetail(){
+  const d = CARDS[currentDetailKey];
+  if(d) openCheckout(d.checkoutType);
+}
+
+const mData = {
+  flight:  {t:'Complete Flight Booking',s:'DAC → Cox\'s Bazar · 1 Adult · Economy',r1k:'Route',r1v:'DAC → CXB',r2k:'Date',r2v:'22 Jun 2026',r3k:'Class',r3v:'1 Adult · Economy',tax:'৳ 1,800',total:'৳ 8,500'},
+  hotel:   {t:'Complete Hotel Booking',s:'Pan Pacific Sonargaon · 3 Nights',r1k:'Hotel',r1v:'Pan Pacific Sonargaon',r2k:'Check-in',r2v:'22 Jun 2026',r3k:'Duration',r3v:'3 Nights · 1 Room',tax:'৳ 1,200',total:'৳ 26,700'},
+  package: {t:'Complete Package Booking',s:'Bangkok & Pattaya · 2 Adults · 6 Days',r1k:'Package',r1v:'Bangkok & Pattaya',r2k:'Departure',r2v:'22 Jun 2026',r3k:'Travellers',r3v:'2 Adults',tax:'৳ 4,000',total:'৳ 1,08,000'},
+  visa:    {t:'Visa Application',s:'Thailand Tourist Visa',r1k:'Country',r1v:'Thailand',r2k:'Visa Type',r2v:'Tourist (30 Days)',r3k:'Applicants',r3v:'1 Person',tax:'৳ 500',total:'৳ 4,000'},
+};
+
+function switchSvc(tab, el){
+  document.querySelectorAll('.svc-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.search-panel').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('panel-'+tab).classList.add('active');
+}
+
+function openCheckout(type){
+  const d = mData[type]||mData.flight;
+  document.getElementById('mTitle').textContent = d.t;
+  document.getElementById('mSub').textContent = d.s;
+  document.getElementById('r1k').textContent = d.r1k;
+  document.getElementById('r1v').textContent = d.r1v;
+  document.getElementById('r2k').textContent = d.r2k;
+  document.getElementById('r2v').textContent = d.r2v;
+  document.getElementById('r3k').textContent = d.r3k;
+  document.getElementById('r3v').textContent = d.r3v;
+  document.getElementById('taxVal').textContent = d.tax;
+  document.getElementById('totalVal').textContent = d.total;
+  document.getElementById('payBtn').textContent = d.total;
+  document.getElementById('checkoutOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeCheckout(){
+  document.getElementById('checkoutOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function openAuth(tab){
+  document.getElementById('authOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+  switchAuth(tab);
+}
+function closeAuth(){
+  document.getElementById('authOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function switchAuth(tab){
+  document.getElementById('loginForm').style.display = tab==='login'?'block':'none';
+  document.getElementById('signupForm').style.display = tab==='signup'?'block':'none';
+  document.getElementById('atL').classList.toggle('active', tab==='login');
+  document.getElementById('atS').classList.toggle('active', tab==='signup');
+}
+function selPM(el){
+  document.querySelectorAll('.pm').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+}
+function fakePay(){
+  closeCheckout();
+  setTimeout(()=>alert('✅ Demo: Booking Confirmed!\n\nIn the live version you\'d be redirected to SSL Commerz to complete payment.'),150);
+}
+function switchRoutes(type){
+  document.getElementById('routesDomestic').style.display = type==='domestic'?'block':'none';
+  document.getElementById('routesIntl').style.display = type==='intl'?'block':'none';
+  document.getElementById('btnDomestic').classList.toggle('active', type==='domestic');
+  document.getElementById('btnIntl').classList.toggle('active', type==='intl');
+}
+document.getElementById('checkoutOverlay').addEventListener('click',function(e){if(e.target===this)closeCheckout()});
+document.getElementById('authOverlay').addEventListener('click',function(e){if(e.target===this)closeAuth()});
+</script>
+</body>
+</html>
